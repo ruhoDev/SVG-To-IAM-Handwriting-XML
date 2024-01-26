@@ -1,76 +1,16 @@
-svgoutline
-==========
+SVG To IAM Handwriting XML
+==========================
 
-This Python library extracts all strokes (outlines) from an SVG vector graphics
-file as a series of straight line segments appropriate for driving pen plotters
-or desktop cutting machines.
-
-
-Features
---------
-
-* **Supports most common SVG features** including beziers, shapes, simple text,
-  dashed lines and object/layer visibility. Converts all of these
-  into simple straight line segments with no transformations required:
-  
-  ![Input SVG](./samples/basic_sample_input_text_as_outlines_for_readme.svg)
-  ![Arrow](./samples/arrow.svg)
-  ![Output SVG](./samples/basic_sample_output.svg)
-* **Ignores out non-stroked objects.**
-  
-  ![Input SVG](./samples/outline_only_sample_input.svg)
-  ![Arrow](./samples/arrow.svg)
-  ![Output SVG](./samples/outline_only_sample_output.svg)
-* **Curves are approximated by straight lines** with user-defined fidelity.
-  
-  ![Input SVG](./samples/curve_resolution_sample_input.svg)
-  ![Arrow](./samples/arrow.svg)
-  ![Output SVG](./samples/curve_resolution_sample_output_0.2.svg)
-  ![Output SVG](./samples/curve_resolution_sample_output_1.0.svg)
-  ![Output SVG](./samples/curve_resolution_sample_output_5.0.svg)
-* **Captures stroke colours** in RGBA format and millimetres respectively (e.g.
-  to allow colour/thickness dependent cutting/plotting settings).
-  
-  ![Input SVG](./samples/colours_sample_input.svg)
-  ![Arrow](./samples/arrow.svg)
-  ![Output SVG](./samples/colours_sample_output.svg)
+My script extracts all strokes from SVG using svg.path, then convert 
+Bezier curve lines to all points on the curve.
+Then my script convert SVG to XML format what used in IAM Handwriting.
 
 
 Usage
 -----
 
-Install from PyPI:
-
-    $ pip install svgoutline
-
-Provide a valid SVG deserialised from XML using Python's [`ElementTree`
-API](https://docs.python.org/3/library/xml.etree.elementtree.html):
-
-    >>> import xml.etree.ElementTree as ET
-    >>> from svgoutline import svg_to_outlines
-    
-    >>> tree = ET.parse("example.svg")
-    >>> root = tree.getroot()
-    
-    >>> outlines = svg_to_outlines(root)
-
-Where `outlines` will be a `list` of lines of the form:
-
-    [
-        ((r, g, b, a), line_width, [(x, y), ...]),
-        ...
-    ]
-
-With `r`, `g`, `b` and `a` being between 0.0 and 1.0, and with `line_width` and
-the coordinates being given in millimetres.
-
-See `help(svg_to_outlines)` (or
-[`svg_to_outlines.py`](./svgoutline/svg_to_outlines.py)) for full usage
-information.
-
-Alternatively, a quick'n'dirty demo script is provided in `samples/demo.py`
-which generates the examples above given an SVG file as input. See `python
-samples/demo.py --help` for more information.
+Python 
+    $ Install Python 3.6
 
 
 Limitations
@@ -107,17 +47,11 @@ The tests are written using [py.test](https://docs.pytest.org/en/latest/) and
 test dependencies can be installed and the tests executed with:
 
     $ pip install -r requirements-test.txt
-    $ py.test tests
 
-The code adheres to the Python [PEP8 style
-guide](https://www.python.org/dev/peps/pep-0008/) and is checked using
-[flake8](http://flake8.pycqa.org/en/latest/) (installed with py.test in the
-commands above). Run it using:
+There are two versions for testing: gen_outline.py, parse_xml.py. You can choose
+any format according to your prepared svg files.
+Then you can convert SVG files by following commands.
 
-    $ flake8 tests svgoutline
-
-
-License
--------
-
-GNU Lesser General Public License v3 (LGPLv3)
+    $ python gen_outline.py
+    or 
+    $ python parse_xml.py
